@@ -1,11 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styles from '../styles/HomePage.module.css';
 
-export default function HomePage({ onNavigate }) {
+export default function HomePage() {
+    const navigate = useNavigate();
+
     const handleLogin = () => {
-        onNavigate('login');
+        navigate('/login'); // 🔹 теперь это реальный переход
     };
 
     return (
@@ -13,7 +16,6 @@ export default function HomePage({ onNavigate }) {
             <Header
                 isAuthenticated={false}
                 onLogin={handleLogin}
-                onNavigate={onNavigate}
             />
 
             <main className={styles.main}>
@@ -28,15 +30,23 @@ export default function HomePage({ onNavigate }) {
 
                     <div className={styles.textWrapper}>
                         <div className={styles.textContent}>
-                            <h1 className={styles.title}>
-                                Добро пожаловать!
-                            </h1>
+                            <h1 className={styles.title}>Добро пожаловать!</h1>
                             <p className={styles.description}>
-                                Мы - завод имени [вставить]. Наше предприятие специализируется на многопрофильной продукции и малотоннажной химии. Мы уверенно держим лидерство в производстве каучуков общего и специального назначения, авиационного топлива и добавок к бензинам
+                                Мы — завод имени [вставить]. Наше предприятие специализируется на
+                                многопрофильной продукции и малотоннажной химии. Мы уверенно держим
+                                лидерство в производстве каучуков общего и специального назначения,
+                                авиационного топлива и добавок к бензинам.
                             </p>
+                            <div className={styles.devButtons}>
+                                <button onClick={() => onNavigate('login')}>Обычный вход</button>
+                                <button onClick={() => onLogin({ username: 'Director', role: 'director' })}>
+                                    Войти как директор
+                                </button>
+                            </div>
                             <div className={styles.infoBox}>
                                 <p className={styles.infoText}>
-                                    Номер отдела кадров: <span className={styles.infoHighlight}>89108765436</span>
+                                    Номер отдела кадров:{' '}
+                                    <span className={styles.infoHighlight}>89108765436</span>
                                 </p>
                             </div>
                         </div>

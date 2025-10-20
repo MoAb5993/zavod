@@ -1,73 +1,73 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styles from '../styles/ProfilePage.module.css';
 
-export default function ProfilePage({ user, onNavigate, onLogout }) {
-    const [orders, setOrders] = useState([]);
+export default function ProfilePage({ user }) {
+    const navigate = useNavigate();
 
-    // эмуляция загрузки данных заказов с сервера
-    useEffect(() => {
-        // TODO: заменить на fetch('/api/orders') после подключения бэкенда
-        setTimeout(() => {
-            setOrders([
-                { id: 1, title: 'Проект А' },
-                { id: 2, title: 'Проект Б' },
-                { id: 3, title: 'Проект В' },
-                { id: 4, title: 'Проект Г' },
-            ]);
-        }, 400);
-    }, []);
+    // 🔹 Временные заказы (заглушка)
+    const orders = [
+        { id: 1, title: 'Изготовление узла фильтрации', status: 'в процессе' },
+        { id: 2, title: 'Производство корпуса резервуара', status: 'в процессе' },
+        { id: 3, title: 'Очистка реактора №2', status: 'в процессе' },
+    ];
 
     return (
         <div className={styles.page}>
-            <Header isAuthenticated={true} onLogout={onLogout} onNavigate={onNavigate} />
+            <Header isAuthenticated={true} />
 
             <main className={styles.main}>
-                <div className={styles.profileContainer}>
-                    {/* Левая карточка пользователя */}
+                <div className={styles.container}>
+                    {/* Левая часть — карточка пользователя */}
                     <div className={styles.userCard}>
-                        <div className={styles.avatar}></div>
-                        <p><strong>ФИО:</strong> {user.fullName || '—'}</p>
-                        <p><strong>Должность:</strong> {user.position || '—'}</p>
-                        <p><strong>Дата рождения:</strong> {user.birthDate || '—'}</p>
-                        <p><strong>E-mail:</strong> {user.email || '—'}</p>
-                        <p><strong>Номер телефона:</strong> {user.phone || '—'}</p>
-                        <p><strong>Дата найма:</strong> {user.hireDate || '—'}</p>
+                        <img
+                            src={user?.photo || 'https://via.placeholder.com/150'}
+                            alt="Фото сотрудника"
+                            className={styles.userPhoto}
+                        />
+                        <h2 className={styles.userName}>{user?.name || 'Имя Фамилия'}</h2>
+                        <p><strong>E-mail:</strong> {user?.email || 'example@mail.com'}</p>
+                        <p><strong>Телефон:</strong> {user?.phone || '+7 (900) 000-00-00'}</p>
+                        <p><strong>Дата найма:</strong> {user?.hireDate || '01.01.2023'}</p>
+                        <p><strong>Дата рождения:</strong> {user?.birthDate || '01.01.1990'}</p>
                     </div>
 
                     {/* Правая часть — список заказов */}
                     <div className={styles.ordersSection}>
-                        <h2>Список реализуемых заказов</h2>
+                        <h2 className={styles.ordersTitle}>Мои заказы</h2>
 
                         <div className={styles.ordersGrid}>
-                            {orders.length > 0 ? (
-                                orders.map((order) => (
-                                    <div key={order.id} className={styles.orderCard}>
-                                        <img
-                                            src="https://images.unsplash.com/photo-1581091215367-59ab6c8d6b3e?fit=crop&w=400&h=300"
-                                            alt={order.title}
-                                        />
-                                        <p className={styles.projectTitle}>{order.title}</p>
-                                    </div>
-                                ))
-                            ) : (
-                                <p className={styles.noOrders}>Нет реализуемых заказов</p>
-                            )}
+                            {orders.map((order) => (
+                                <div
+                                    key={order.id}
+                                    className={styles.orderCard}
+                                    onClick={() => navigate(`/order-completion/${order.id}`)}
+                                >
+                                    <img
+                                        src="https://via.placeholder.com/200x120"
+                                        alt="Изображение проекта"
+                                        className={styles.orderImage}
+                                    />
+                                    <h3 className={styles.orderTitle}>{order.title}</h3>
+                                    <p className={styles.orderStatus}>
+                                        Статус: <strong>{order.status}</strong>
+                                    </p>
+                                </div>
+                            ))}
                         </div>
 
-                        {/* Кнопки снизу */}
-                        <div className={styles.buttonGroup}>
+                        <div className={styles.actions}>
                             <button
-                                className={styles.planButton}
-                                onClick={() => onNavigate('createPlan')}
+                                className={`${styles.button} ${styles.yellow}`}
+                                onClick={() => navigate('/create-plan')}
                             >
-                                Организовать план
+                                Создать заказ
                             </button>
-
                             <button
-                                className={styles.registerButton}
-                                onClick={() => onNavigate('registerEmployee')}
+                                className={`${styles.button} ${styles.blue}`}
+                                onClick={() => navigate('/register-employee')}
                             >
                                 Зарегистрировать сотрудника
                             </button>

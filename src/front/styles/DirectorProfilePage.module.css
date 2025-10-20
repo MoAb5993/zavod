@@ -1,100 +1,139 @@
-.wrapper {
+.page {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #ffffff;
+    background-color: #f3f3f3;
 }
 
+/* Центрирование */
 .main {
+    flex: 1;
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    gap: 40px;
-    padding: 40px;
+    align-items: flex-start;
+    padding: 40px 20px;
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    max-width: 1300px;
+    width: 100%;
+}
+
+/* Левая колонка — карточка директора */
 .profileCard {
-    width: 250px;
-    background-color: #d9d9d9;
-    padding: 20px;
-    border-radius: 10px;
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    width: 320px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    gap: 8px;
+    color: black;
 }
 
-.photoPlaceholder {
+.userPhoto {
     width: 120px;
     height: 120px;
-    background-color: #cfcfcf;
     border-radius: 50%;
-    margin-bottom: 20px;
+    object-fit: cover;
+    margin-bottom: 10px;
 }
 
-.info {
-    text-align: center;
-    font-size: 14px;
-    color: #000;
+.userName {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 
+/* Правая часть — утверждённые заказы */
 .ordersSection {
     flex: 1;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.sectionTitle {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 .ordersGrid {
     display: grid;
-    grid-template-columns: repeat(2, 200px);
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
 }
 
 .orderCard {
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.2s;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease;
 }
 
 .orderCard:hover {
     transform: scale(1.02);
 }
 
-.orderCard img {
+.orderImage {
     width: 100%;
-    height: 100px;
+    height: 140px;
     object-fit: cover;
+    border-radius: 10px;
 }
 
-.orderCard p {
-    margin: 10px;
-    font-weight: 500;
+.orderTitle {
+    margin-top: 10px;
+    font-weight: 600;
 }
 
-.buttons {
+.orderDesc {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+/* Кнопки */
+.actions {
+    margin-top: 32px;
     display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 30px;
+    gap: 16px;
 }
 
-.createPlan {
-    background-color: #ffd699;
+.actionButton {
+    padding: 10px 20px;
     border: none;
-    border-radius: 8px;
-    padding: 10px 25px;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
 }
 
-.registerEmployee {
-    background-color: #7fc8f8;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 25px;
-    cursor: pointer;
-    font-weight: 500;
+/* Желтая — создать заказ */
+.createOrderButton {
+    background-color: #ffd60a;
+    color: #000;
+}
+
+.createOrderButton:hover {
+    background-color: #ffcc00;
+}
+
+/* Синяя — зарегистрировать сотрудника */
+.registerButton {
+    background-color: #007bff;
+}
+
+.registerButton:hover {
+    background-color: #0069d9;
 }

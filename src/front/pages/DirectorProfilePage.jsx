@@ -1,67 +1,88 @@
-import React, { useState } from "react";
-import styles from "../styles/DirectorProfilePage.module.css";
-import NotificationPanel from "../components/NotificationPanel";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+// src/pages/DirectorProfilePage.jsx
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import styles from '../styles/DirectorProfilePage.module.css';
 
-export default function DirectorProfilePage({ user, onLogout, onNavigate }) {
-    const [notifications, setNotifications] = useState([
-        { id: 1, type: "success", message: 'План "X" успешно выполнен' },
-        { id: 2, type: "error", message: 'План "Y" не выполнен в срок' },
-        { id: 3, type: "info", message: "У вас новый план на утверждение" },
-    ]);
+export default function DirectorProfilePage({ user, onLogout }) {
+    const navigate = useNavigate();
 
-    const handleNotificationClick = (id) => {
-        setNotifications((prev) => prev.filter((n) => n.id !== id));
-    };
+    const approvedOrders = [
+        // Заглушки — заменишь позже, когда подключим бэкенд
+        {
+            id: 1,
+            title: 'Производственный план №1',
+            description: 'Изготовление партии каучука',
+            image: '/images/placeholder1.jpg', // TODO: заменить
+        },
+        {
+            id: 2,
+            title: 'Производственный план №2',
+            description: 'Производство авиационного топлива',
+            image: '/images/placeholder2.jpg', // TODO: заменить
+        },
+    ];
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.page}>
             <Header
-                isDirector
-                notifications={notifications}
-                onNotificationClick={handleNotificationClick}
+                isAuthenticated={true}
+                isDirector={true}
                 onLogout={onLogout}
             />
 
             <main className={styles.main}>
-                <div className={styles.profileCard}>
-                    <div className={styles.photoPlaceholder}></div>
-                    <div className={styles.info}>
-                        <p>ФИО: {user.name || "Иванов Иван Иванович"}</p>
-                        <p>Должность: {user.position || "Директор"}</p>
-                        <p>Дата рождения: {user.birthDate || "01.01.1980"}</p>
-                        <p>E-mail: {user.email || "director@zavod.ru"}</p>
-                        <p>Номер телефона: {user.phone || "+7 (900) 000-00-00"}</p>
-                        <p>Дата найма: {user.hireDate || "01.05.2010"}</p>
-                    </div>
-                </div>
+                <div className={styles.container}>
+                    {/* Левая колонка — карточка директора */}
+                    <aside className={styles.profileCard}>
+                        <img
+                            src={user?.photo || '/images/user-placeholder.png'}
+                            alt="Фото пользователя"
+                            className={styles.userPhoto}
+                        />
+                        <h2 className={styles.userName}>{user?.fullName || 'Иванов Иван Иванович'}</h2>
+                        <p><strong>Должность:</strong> {user?.position || 'Директор'}</p>
+                        <p><strong>Email:</strong> {user?.email || 'director@zavod.ru'}</p>
+                        <p><strong>Телефон:</strong> {user?.phone || '+7 (900) 000-00-00'}</p>
+                        <p><strong>Дата рождения:</strong> {user?.birthDate || '01.01.1975'}</p>
+                        <p><strong>Дата найма:</strong> {user?.hireDate || '15.03.2000'}</p>
+                    </aside>
 
-                <div className={styles.ordersSection}>
-                    <h2>Список реализуемых заказов</h2>
-                    <div className={styles.ordersGrid}>
-                        {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className={styles.orderCard}>
-                                <img src="/factory.jpg" alt="Производство" />
-                                <p>Проект {i}</p>
-                            </div>
-                        ))}
-                    </div>
+                    {/* Правая часть — утверждённые заказы */}
+                    <section className={styles.ordersSection}>
+                        <h2 className={styles.sectionTitle}>Утверждённые заказы</h2>
 
-                    <div className={styles.buttons}>
-                        <button
-                            className={styles.createPlan}
-                            onClick={() => onNavigate("create-plan")}
-                        >
-                            Организовать план
-                        </button>
-                        <button
-                            className={styles.registerEmployee}
-                            onClick={() => onNavigate("register-employee")}
-                        >
-                            Зарегистрировать сотрудника
-                        </button>
-                    </div>
+                        <div className={styles.ordersGrid}>
+                            {approvedOrders.map(order => (
+                                <div key={order.id} className={styles.orderCard}>
+                                    <img
+                                        src={order.image}
+                                        alt={order.title}
+                                        className={styles.orderImage}
+                                    />
+                                    <h3 className={styles.orderTitle}>{order.title}</h3>
+                                    <p className={styles.orderDesc}>{order.description}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className={styles.actions}>
+                            <button
+                                className={`${styles.actionButton} ${styles.createOrderButton}`}
+                                onClick={() => navigate('/create-plan')}
+                            >
+                                Создать заказ
+                            </button>
+
+                            <button
+                                className={`${styles.actionButton} ${styles.registerButton}`}
+                                onClick={() => navigate('/register-employee')}
+                            >
+                                Зарегистрировать сотрудника
+                            </button>
+                        </div>
+                    </section>
                 </div>
             </main>
 

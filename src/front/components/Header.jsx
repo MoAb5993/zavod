@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Factory, Bell } from 'lucide-react';
 import styles from '../styles/Header.module.css';
 import NotificationPanel from './NotificationPanel';
@@ -8,33 +9,41 @@ export default function Header({
                                    isDirector = false,
                                    notifications = [],
                                    onNotificationClick,
-                                   onLogin,
                                    onLogout,
-                                   onNavigate
                                }) {
     const [showNotifications, setShowNotifications] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        if (onLogout) onLogout();
+        navigate('/'); // 🔹 После выхода — переход на главную страницу
+    };
+
+    const handleLoginClick = () => {
+        navigate('/login');
+    };
 
     return (
         <header className={styles.header}>
             <div className={styles.container}>
+                {/* 🔹 Логотип */}
                 <div className={styles.logo}>
                     <Factory className={styles.logoIcon} />
-                    <button
-                        onClick={() => onNavigate && onNavigate('home')}
-                        className={styles.logoButton}
-                    >
+                    <Link to="/" className={styles.logoButton}>
                         Zavod.ru
-                    </button>
+                    </Link>
                 </div>
 
+                {/* 🔹 Навигация */}
                 <nav className={styles.nav}>
                     {isAuthenticated ? (
                         <>
+                            {/* 🔔 Уведомления для директора */}
                             {isDirector && (
                                 <div className={styles.bellWrapper}>
                                     <Bell
                                         className={styles.bellIcon}
-                                        onClick={() => setShowNotifications(prev => !prev)}
+                                        onClick={() => setShowNotifications((prev) => !prev)}
                                     />
                                     {showNotifications && (
                                         <NotificationPanel
@@ -45,30 +54,21 @@ export default function Header({
                                 </div>
                             )}
 
-                            <button
-                                onClick={() => onNavigate && onNavigate('profile')}
-                                className={styles.navLink}
-                            >
+                            {/* 🔹 Ссылки на страницы */}
+                            <Link to="/profile" className={styles.navLink}>
                                 Профиль
-                            </button>
-                            <button
-                                onClick={() => onNavigate && onNavigate('orders')}
-                                className={styles.navLink}
-                            >
+                            </Link>
+
+                            <Link to="/orders" className={styles.navLink}>
                                 Заказы
-                            </button>
-                            <button
-                                onClick={onLogout}
-                                className={styles.logoutButton}
-                            >
+                            </Link>
+
+                            <button onClick={handleLogout} className={styles.logoutButton}>
                                 Выйти
                             </button>
                         </>
                     ) : (
-                        <button
-                            onClick={onLogin}
-                            className={styles.loginButton}
-                        >
+                        <button onClick={handleLoginClick} className={styles.loginButton}>
                             Войти
                         </button>
                     )}
