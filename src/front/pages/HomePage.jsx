@@ -37,12 +37,6 @@ export default function HomePage() {
                                 лидерство в производстве каучуков общего и специального назначения,
                                 авиационного топлива и добавок к бензинам.
                             </p>
-                            <div className={styles.devButtons}>
-                                <button onClick={() => onNavigate('login')}>Обычный вход</button>
-                                <button onClick={() => onLogin({ username: 'Director', role: 'director' })}>
-                                    Войти как директор
-                                </button>
-                            </div>
                             <div className={styles.infoBox}>
                                 <p className={styles.infoText}>
                                     Номер отдела кадров:{' '}
