@@ -7,7 +7,7 @@ export default function OrdersPage({ onNavigate, onLogout }) {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Загрузка списка заказов (заглушка - заменить на реальный API)
+    // Загрузка списка заказов (заменить на реальный API)
     useEffect(() => {
         // Имитация загрузки данных
         setTimeout(() => {
