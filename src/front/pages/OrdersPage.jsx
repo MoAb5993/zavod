@@ -15,7 +15,7 @@ export default function OrdersPage({ onNavigate, onLogout }) {
             setOrders([
                 {
                     id: 1,
-                    projectName: 'Проект "Ж"',
+                    projectName: 'Проект "К"',
                     sender: 'Иванов Иван Иванович'
                 },
                 {
@@ -25,7 +25,7 @@ export default function OrdersPage({ onNavigate, onLogout }) {
                 },
                 {
                     id: 3,
-                    projectName: 'Проект "П"',
+                    projectName: 'Проект "М"',
                     sender: 'Сидоров Сидор Сидорович'
                 },
                 {
